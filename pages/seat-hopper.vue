@@ -1,201 +1,163 @@
 <template>
   <div class="max-w-xl mx-auto p-6 space-y-6">
     <h1 class="text-2xl font-semibold">Seat Hopper</h1>
+    <div class="space-y-4">
+      <AutoComplete
+        v-model="form.stationFrom"
+        :suggestions="stationSuggestions"
+        @complete="searchStations"
+        option-label="name"
+        placeholder="Select departure station"
+        class="w-full [&>input]:w-full"
+      />
 
-    <Form
-      :validation-schema="schema"
-      @submit="onSubmit"
-      v-slot="{ values, errors }"
-    >
-      <div class="space-y-4">
-        <FormField name="departureDate">
-          <FormItem>
-            <FormLabel>Data odjazdu</FormLabel>
-            <FormControl>
-              <Input type="datetime-local" v-model="values.departureDate" />
-            </FormControl>
-            <FormMessage>{{ errors.departureDate }}</FormMessage>
-          </FormItem>
-        </FormField>
+      <AutoComplete
+        v-model="form.stationTo"
+        :suggestions="stationSuggestions"
+        @complete="searchStations"
+        option-label="name"
+        placeholder="Select arrival station"
+        class="w-full [&>input]:w-full"
+      />
 
-        <FormField name="arrivalDate">
-          <FormItem>
-            <FormLabel>Data przyjazdu</FormLabel>
-            <FormControl>
-              <Input type="datetime-local" v-model="values.arrivalDate" />
-            </FormControl>
-            <FormMessage>{{ errors.arrivalDate }}</FormMessage>
-          </FormItem>
-        </FormField>
+      <InputText
+        v-model="form.vehicleNumber"
+        placeholder="Vehicle Number"
+        class="w-full"
+      />
 
-        <FormField name="trainNumber">
-          <FormItem>
-            <FormLabel>Numer pociągu</FormLabel>
-            <FormControl>
-              <Input type="number" v-model="values.trainNumber" />
-            </FormControl>
-            <FormMessage>{{ errors.trainNumber }}</FormMessage>
-          </FormItem>
-        </FormField>
+      <Calendar
+        v-model="form.departureDate"
+        showTime
+        hourFormat="24"
+        placeholder="Departure Date & Time"
+        class="w-full"
+        :stepMinute="1"
+        :showSeconds="false"
+      />
 
-        <FormField name="fromStation">
-          <FormItem>
-            <FormLabel>Stacja początkowa</FormLabel>
-            <FormControl>
-              <Popover>
-                <PopoverTrigger as-child>
-                  <Button variant="outline" class="w-full justify-start">
-                    {{ values.fromStation?.name || "Wybierz stację" }}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent class="w-full">
-                  <Input
-                    v-model="searchFrom"
-                    placeholder="Szukaj stacji..."
-                    class="mb-2"
-                  />
-                  <div v-if="loadingFrom" class="text-sm">Ładowanie...</div>
-                  <div v-else>
-                    <div
-                      v-for="station in filteredFrom"
-                      :key="station.id"
-                      @click="values.fromStation = station"
-                      class="px-2 py-1 hover:bg-muted cursor-pointer rounded"
-                    >
-                      {{ station.name }}
-                    </div>
-                  </div>
-                </PopoverContent>
-              </Popover>
-            </FormControl>
-            <FormMessage>{{ errors.fromStation }}</FormMessage>
-          </FormItem>
-        </FormField>
-
-        <FormField name="toStation">
-          <FormItem>
-            <FormLabel>Stacja docelowa</FormLabel>
-            <FormControl>
-              <Popover>
-                <PopoverTrigger as-child>
-                  <Button variant="outline" class="w-full justify-start">
-                    {{ values.toStation?.name || "Wybierz stację" }}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent class="w-full">
-                  <Input
-                    v-model="searchTo"
-                    placeholder="Szukaj stacji..."
-                    class="mb-2"
-                  />
-                  <div v-if="loadingTo" class="text-sm">Ładowanie...</div>
-                  <div v-else>
-                    <div
-                      v-for="station in filteredTo"
-                      :key="station.id"
-                      @click="values.toStation = station"
-                      class="px-2 py-1 hover:bg-muted cursor-pointer rounded"
-                    >
-                      {{ station.name }}
-                    </div>
-                  </div>
-                </PopoverContent>
-              </Popover>
-            </FormControl>
-            <FormMessage>{{ errors.toStation }}</FormMessage>
-          </FormItem>
-        </FormField>
-
-        <Button type="submit">Szukaj miejsc</Button>
+      <div class="flex gap-4 items-center">
+        <label class="font-medium">Category:</label>
+        <div class="flex items-center gap-2">
+          <RadioButton
+            v-model="form.category"
+            inputId="ic"
+            name="category"
+            value="IC"
+          />
+          <label for="ic">IC</label>
+        </div>
+        <div class="flex items-center gap-2">
+          <RadioButton
+            v-model="form.category"
+            inputId="eic"
+            name="category"
+            value="EIC"
+          />
+          <label for="eic">EIC</label>
+        </div>
       </div>
-    </Form>
+
+      <Button
+        label="Submit"
+        @click="submitForm"
+        class="mt-4"
+        :loading="loading"
+        :disabled="!isFormValid"
+      />
+
+      <div
+        v-if="error"
+        class="p-3 bg-red-100 border border-red-400 text-red-700 rounded"
+      >
+        {{ error }}
+      </div>
+
+      <div
+        v-if="result"
+        class="p-3 bg-green-100 border border-green-400 text-green-700 rounded"
+      >
+        <h3 class="font-semibold mb-2">Route Data:</h3>
+        <pre class="text-sm">{{ JSON.stringify(result, null, 2) }}</pre>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import {
-  Form,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormControl,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import {
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-} from "@/components/ui/popover";
-import { z } from "zod";
-import { watchDebounced } from "@vueuse/core";
+import { ref, computed } from "vue";
 
-type Station = {
+interface Station {
   id: string;
   name: string;
-};
+}
 
-const schema = z.object({
-  departureDate: z.string().min(1, "Wymagana data odjazdu"),
-  arrivalDate: z.string().min(1, "Wymagana data przyjazdu"),
-  trainNumber: z.coerce.number().min(1, "Numer pociągu jest wymagany"),
-  fromStation: z.object({
-    id: z.string(),
-    name: z.string(),
-  }),
-  toStation: z.object({
-    id: z.string(),
-    name: z.string(),
-  }),
+const form = ref({
+  stationFrom: null as Station | null,
+  stationTo: null as Station | null,
+  vehicleNumber: "",
+  departureDate: null as Date | null,
+  category: "" as "IC" | "EIC" | "",
 });
 
-const searchFrom = ref("");
-const searchTo = ref("");
-const stationsFrom = ref<Station[]>([]);
-const stationsTo = ref<Station[]>([]);
-const loadingFrom = ref(false);
-const loadingTo = ref(false);
+const stationSuggestions = ref<Station[]>([]);
+const loading = ref(false);
+const error = ref<string | null>(null);
+const result = ref<any>(null);
 
-const fetchStations = async (query: string) => {
-  if (!query) return [];
-  return await $fetch<Station[]>(
-    `/api/stations?q=${encodeURIComponent(query)}`
+const isFormValid = computed(() => {
+  return (
+    form.value.stationFrom &&
+    form.value.stationTo &&
+    form.value.vehicleNumber &&
+    form.value.departureDate &&
+    form.value.category
   );
+});
+
+const searchStations = async (event: { query: string }) => {
+  try {
+    const { data } = await useFetch<Station[]>("/api/stations", {
+      query: { q: event.query },
+    });
+    if (data.value && data.value.length > 0) {
+      stationSuggestions.value = data.value ?? [];
+    }
+  } catch (err) {
+    console.error("Error fetching stations:", err);
+  }
 };
 
-const filteredFrom = ref<Station[]>([]);
-const filteredTo = ref<Station[]>([]);
+const submitForm = async () => {
+  loading.value = true;
+  error.value = null;
+  result.value = null;
 
-watchDebounced(
-  searchFrom,
-  async (q) => {
-    loadingFrom.value = true;
-    filteredFrom.value = await fetchStations(q);
-    loadingFrom.value = false;
-  },
-  { debounce: 300 }
-);
+  try {
+    const date = form.value.departureDate;
+    date.setSeconds(0, 0);
+    const isoDateTime = new Date(
+      date.getTime() - date.getTimezoneOffset() * 60000
+    ).toISOString();
 
-watchDebounced(
-  searchTo,
-  async (q) => {
-    loadingTo.value = true;
-    filteredTo.value = await fetchStations(q);
-    loadingTo.value = false;
-  },
-  { debounce: 300 }
-);
+    const payload = {
+      stationFrom: form.value.stationFrom!.id,
+      stationTo: form.value.stationTo!.id,
+      vehicleNumber: parseInt(form.value.vehicleNumber),
+      departureDate: isoDateTime.slice(0, -2),
+      category: form.value.category,
+    };
 
-const onSubmit = (values: any) => {
-  console.log("✅ Wysłano formularz:", {
-    ...values,
-    fromStationId: values.fromStation.id,
-    toStationId: values.toStation.id,
-  });
+    const { data } = await $fetch("/api/route", {
+      method: "POST",
+      body: payload,
+    });
+
+    result.value = JSON.parse(data);
+  } catch (err: any) {
+    error.value = "An error occurred while fetching route data";
+  } finally {
+    loading.value = false;
+  }
 };
 </script>
-
-<style scoped>
-/* optional styling if needed */
-</style>
