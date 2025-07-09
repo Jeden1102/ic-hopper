@@ -1,91 +1,76 @@
 <template>
-  <div class="max-w-xl mx-auto p-6 space-y-6">
-    <h1 class="text-2xl font-semibold">Seat Hopper</h1>
-    <div class="space-y-4">
-      <AutoComplete
-        v-model="form.stationFrom"
-        :suggestions="stationSuggestions"
-        @complete="searchStations"
-        option-label="name"
-        placeholder="Select departure station"
-        class="w-full [&>input]:w-full"
-      />
-
-      <AutoComplete
-        v-model="form.stationTo"
-        :suggestions="stationSuggestions"
-        @complete="searchStations"
-        option-label="name"
-        placeholder="Select arrival station"
-        class="w-full [&>input]:w-full"
-      />
-
-      <InputText
-        v-model="form.vehicleNumber"
-        placeholder="Vehicle Number"
-        class="w-full"
-      />
-
-      <Calendar
-        v-model="form.departureDate"
-        showTime
-        hourFormat="24"
-        placeholder="Departure Date & Time"
-        class="w-full"
-        :stepMinute="1"
-        :showSeconds="false"
-      />
-
-      <div class="flex gap-4 items-center">
-        <label class="font-medium">Category:</label>
-        <div class="flex items-center gap-2">
-          <RadioButton
-            v-model="form.category"
-            inputId="ic"
-            name="category"
-            value="IC"
+  <Card class="max-w-xl mx-auto p-6 space-y-6">
+    <template #title>Seat Hopper</template>
+    <template #content>
+      <div class="space-y-4">
+        <div class="flex gap-2">
+          <AutoComplete
+            v-model="form.stationFrom"
+            :suggestions="stationSuggestions"
+            @complete="searchStations"
+            option-label="name"
+            placeholder="Select departure station"
+            class="w-full [&>input]:w-full"
           />
-          <label for="ic">IC</label>
-        </div>
-        <div class="flex items-center gap-2">
-          <RadioButton
-            v-model="form.category"
-            inputId="eic"
-            name="category"
-            value="EIC"
+          <button @click="swapStations">
+            <Icon
+              name="material-symbols-light:swap-horizontal-circle"
+              class="text-[#10b981]"
+              size="28"
+            />
+          </button>
+          <AutoComplete
+            v-model="form.stationTo"
+            :suggestions="stationSuggestions"
+            @complete="searchStations"
+            option-label="name"
+            placeholder="Select arrival station"
+            class="w-full [&>input]:w-full"
           />
-          <label for="eic">EIC</label>
+        </div>
+
+        <div class="flex gap-2">
+          <Calendar
+            v-model="form.departureDate"
+            showIcon
+            fluid
+            placeholder="Departure Date"
+            class="flex-1"
+            :stepMinute="1"
+            showButtonBar
+          />
+        </div>
+        <Button
+          label="Find connections"
+          @click="submitForm"
+          class="mt-4"
+          :loading="loading"
+          :disabled="!isFormValid"
+        />
+
+        <div
+          v-if="error"
+          class="p-3 bg-red-100 border border-red-400 text-red-700 rounded"
+        >
+          {{ error }}
+        </div>
+
+        <div v-if="result">
+          <AvailableConnections
+            :result="result"
+            @previous-day="handleChangeDay(-1)"
+            @next-day="handleChangeDay(1)"
+          />
         </div>
       </div>
-
-      <Button
-        label="Submit"
-        @click="submitForm"
-        class="mt-4"
-        :loading="loading"
-        :disabled="!isFormValid"
-      />
-
-      <div
-        v-if="error"
-        class="p-3 bg-red-100 border border-red-400 text-red-700 rounded"
-      >
-        {{ error }}
-      </div>
-
-      <div
-        v-if="result"
-        class="p-3 bg-green-100 border border-green-400 text-green-700 rounded"
-      >
-        <h3 class="font-semibold mb-2">Route Data:</h3>
-        <pre class="text-sm">{{ JSON.stringify(result, null, 2) }}</pre>
-      </div>
-    </div>
-  </div>
+    </template>
+  </Card>
 </template>
 
 <script setup lang="ts">
 import { ref, computed } from "vue";
+import AvailableConnections from "~/components/AvailableConnections.vue";
+import type { ICAvailableConnectionsResponse } from "~/server/api/types";
 
 interface Station {
   id: string;
@@ -95,25 +80,25 @@ interface Station {
 const form = ref({
   stationFrom: null as Station | null,
   stationTo: null as Station | null,
-  vehicleNumber: "",
   departureDate: null as Date | null,
-  category: "" as "IC" | "EIC" | "",
 });
 
 const stationSuggestions = ref<Station[]>([]);
 const loading = ref(false);
 const error = ref<string | null>(null);
-const result = ref<any>(null);
+const result = ref<null | ICAvailableConnectionsResponse>(null);
 
 const isFormValid = computed(() => {
   return (
-    form.value.stationFrom &&
-    form.value.stationTo &&
-    form.value.vehicleNumber &&
-    form.value.departureDate &&
-    form.value.category
+    form.value.stationFrom && form.value.stationTo && form.value.departureDate
   );
 });
+
+const swapStations = () => {
+  const temp = form.value.stationFrom;
+  form.value.stationFrom = form.value.stationTo;
+  form.value.stationTo = temp;
+};
 
 const searchStations = async (event: { query: string }) => {
   try {
@@ -128,36 +113,49 @@ const searchStations = async (event: { query: string }) => {
   }
 };
 
-const submitForm = async () => {
+const addDays = (date: Date, days: number): Date => {
+  const result = new Date(date);
+  result.setDate(result.getDate() + days);
+  return result;
+};
+
+const searchConnections = async (searchDate: Date) => {
   loading.value = true;
   error.value = null;
   result.value = null;
 
-  try {
-    const date = form.value.departureDate;
-    date.setSeconds(0, 0);
-    const isoDateTime = new Date(
-      date.getTime() - date.getTimezoneOffset() * 60000
-    ).toISOString();
+  const formattedDate = searchDate.toISOString().split("T")[0];
 
+  try {
     const payload = {
       stationFrom: form.value.stationFrom!.id,
       stationTo: form.value.stationTo!.id,
-      vehicleNumber: parseInt(form.value.vehicleNumber),
-      departureDate: isoDateTime.slice(0, -2),
-      category: form.value.category,
+      departureDate: formattedDate,
     };
 
-    const { data } = await $fetch("/api/route", {
+    const { data } = await $fetch("/api/available-connections", {
       method: "POST",
       body: payload,
     });
 
-    result.value = JSON.parse(data);
+    result.value = data;
   } catch (err: any) {
     error.value = "An error occurred while fetching route data";
   } finally {
     loading.value = false;
   }
+};
+
+const submitForm = async () => {
+  if (!form.value.departureDate) return;
+  await searchConnections(form.value.departureDate);
+};
+
+const handleChangeDay = async (value: number) => {
+  if (!form.value.departureDate) return;
+
+  const previousDay = addDays(form.value.departureDate, value);
+  form.value.departureDate = previousDay;
+  await searchConnections(previousDay);
 };
 </script>
