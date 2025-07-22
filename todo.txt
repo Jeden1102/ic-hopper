@@ -1,0 +1,7 @@
+1. Jakies bazowe style - hero home + nav (na mobile sticky bottom) + footer
+2. Obsluga bledow - zle urly paramsy/brak paramsow
+2.1 obluga bledow api - jakis walidator
+2.2  obsluga zwrotki po kliknieciu, jak ok to dajemy info ze jest miejsca,
+JAK NIE TO:
+3. do forma dodac szczegoly z polami -> 1/2 klasa, miejsce przy oknie/srodek/alejka, opcja typu 'podroz w dwojke' <
+// moze nie do samego forma bazowego, ale juz w szczegolach danego polaczenia + obsuga poodzialu trasy

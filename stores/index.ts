@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import type { ICConnection } from "~/server/types";
 
 interface Station {
   id: string;
@@ -12,5 +13,11 @@ export const useIndexStore = defineStore("index", () => {
     departureDate: null as Date | null,
   });
 
-  return { connectionsForm };
+  const choosenConnection = ref<null | ICConnection>(null);
+
+  const setChoosenConnection = (train: ICConnection) => {
+    choosenConnection.value = train;
+  };
+
+  return { connectionsForm, choosenConnection, setChoosenConnection };
 });

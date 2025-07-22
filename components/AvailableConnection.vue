@@ -34,12 +34,12 @@
           </div>
         </div>
 
-        <Button
-          label="Choose connection"
-          size="small"
-          @click="checkConnection"
-          :loading="loading"
-        />
+        <NuxtLink
+          :to="generateConnectionLink()"
+          @click="() => setChoosenConnection(result)"
+        >
+          <Button label="Choose connection" size="small" />
+        </NuxtLink>
       </div>
     </template>
   </Card>
@@ -52,14 +52,11 @@ import type { ICConnection } from "~/server/types";
 
 import { useIndexStore } from "@/stores/index";
 
-const { connectionsForm } = useIndexStore();
+const { connectionsForm, setChoosenConnection } = useIndexStore();
 
 const props = defineProps<{ result: ICConnection }>();
 console.log(props.result);
 const train = props.result.pociagi[0];
-const loading = ref(false);
-const error = ref<string | null>(null);
-const result = ref<null>(null);
 const formatDate = (dateStr: string): string =>
   format(new Date(dateStr), "PPPP");
 
@@ -70,32 +67,19 @@ const durationFormatted = `${Math.floor(train.czasJazdy / 60)}h ${
   train.czasJazdy % 60
 }min`;
 
-const checkConnection = async () => {
-  loading.value = true;
-  error.value = null;
-  result.value = null;
+const generateConnectionLink = () => {
+  const params = new URLSearchParams({
+    vehicleNumber: train.nrPociagu.toString(),
+    departureDate: train.dataWyjazdu.replace(" ", "T"),
+    arrivalDate: train.dataPrzyjazdu.replace(" ", "T"),
+    stationFrom: connectionsForm.stationFrom?.id ?? "",
+    stationTo: connectionsForm.stationTo?.id ?? "",
+  });
 
-  try {
-    const payload = {
-      vehicleNumber: train.nrPociagu,
-      departureDate: train.dataWyjazdu.replace(" ", "T"),
-      arrivalDate: train.dataPrzyjazdu.replace(" ", "T"),
-      stationFrom: connectionsForm.stationFrom?.id,
-      stationTo: connectionsForm.stationTo?.id,
-    };
-
-    const { data } = await $fetch("/api/seats", {
-      method: "POST",
-      body: payload,
-    });
-
-    console.log(data, "HERE");
-  } catch (err: any) {
-    error.value = "An error occurred while fetching route data";
-  } finally {
-    loading.value = false;
-  }
+  return `/connection?${params.toString()}`;
 };
-//@todo -> obsluga zwrotki po kliknieciu, jak ok to dajemy info ze jest miejsca
+
+// @todo -> do forma dodac szczegoly z polami -> 1/2 klasa, miejsce przy oknie/srodek/alejka, opcja typu 'podroz w dwojke' <
+// moze nie do samego forma bazowego, ale juz w szczegolach danego polaczenia
 // jesli nie, to rzucamy request pod /api/route, pobiermay trase i dzielimy....
 </script>

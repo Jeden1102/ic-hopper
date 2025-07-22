@@ -76,7 +76,7 @@ export type ICConnection = {
   idPolaczenia: number;
 };
 
-type ICTrain = {
+export type ICTrain = {
   stacjaWyjazdu: number;
   stacjaWyjazduMeta: number;
   stacjaPrzyjazdu: number;
