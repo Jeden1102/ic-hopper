@@ -10,6 +10,7 @@ export default defineNuxtConfig({
     "@nuxt/icon",
     "@nuxt/image",
     "@primevue/nuxt-module",
+    "@pinia/nuxt",
   ],
   css: ["~/assets/css/tailwind.css"],
   vite: {

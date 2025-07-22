@@ -5,7 +5,7 @@
       <div class="space-y-4">
         <div class="flex gap-2">
           <AutoComplete
-            v-model="form.stationFrom"
+            v-model="connectionsForm.stationFrom"
             :suggestions="stationSuggestions"
             @complete="searchStations"
             option-label="name"
@@ -20,7 +20,7 @@
             />
           </button>
           <AutoComplete
-            v-model="form.stationTo"
+            v-model="connectionsForm.stationTo"
             :suggestions="stationSuggestions"
             @complete="searchStations"
             option-label="name"
@@ -31,13 +31,14 @@
 
         <div class="flex gap-2">
           <Calendar
-            v-model="form.departureDate"
+            v-model="connectionsForm.departureDate"
             showIcon
             fluid
             placeholder="Departure Date"
             class="flex-1"
             :stepMinute="1"
             showButtonBar
+            :minDate="minDate"
           />
         </div>
         <Button
@@ -70,34 +71,33 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
 import AvailableConnections from "~/components/AvailableConnections.vue";
-import type { ICAvailableConnectionsResponse } from "~/server/api/types";
+import type { ICAvailableConnectionsResponse } from "~/server/types";
+import { useIndexStore } from "@/stores/index";
 
+const { connectionsForm } = useIndexStore();
 interface Station {
   id: string;
   name: string;
 }
 
-const form = ref({
-  stationFrom: null as Station | null,
-  stationTo: null as Station | null,
-  departureDate: null as Date | null,
-});
-
 const stationSuggestions = ref<Station[]>([]);
 const loading = ref(false);
 const error = ref<string | null>(null);
 const result = ref<null | ICAvailableConnectionsResponse>(null);
+const minDate = new Date();
 
 const isFormValid = computed(() => {
   return (
-    form.value.stationFrom && form.value.stationTo && form.value.departureDate
+    connectionsForm.stationFrom &&
+    connectionsForm.stationTo &&
+    connectionsForm.departureDate
   );
 });
 
 const swapStations = () => {
-  const temp = form.value.stationFrom;
-  form.value.stationFrom = form.value.stationTo;
-  form.value.stationTo = temp;
+  const temp = connectionsForm.stationFrom;
+  connectionsForm.stationFrom = connectionsForm.stationTo;
+  connectionsForm.stationTo = temp;
 };
 
 const searchStations = async (event: { query: string }) => {
@@ -128,8 +128,8 @@ const searchConnections = async (searchDate: Date) => {
 
   try {
     const payload = {
-      stationFrom: form.value.stationFrom!.id,
-      stationTo: form.value.stationTo!.id,
+      stationFrom: connectionsForm.stationFrom!.id,
+      stationTo: connectionsForm.stationTo!.id,
       departureDate: formattedDate,
     };
 
@@ -147,15 +147,15 @@ const searchConnections = async (searchDate: Date) => {
 };
 
 const submitForm = async () => {
-  if (!form.value.departureDate) return;
-  await searchConnections(form.value.departureDate);
+  if (!connectionsForm.departureDate) return;
+  await searchConnections(connectionsForm.departureDate);
 };
 
 const handleChangeDay = async (value: number) => {
-  if (!form.value.departureDate) return;
+  if (!connectionsForm.departureDate) return;
 
-  const previousDay = addDays(form.value.departureDate, value);
-  form.value.departureDate = previousDay;
+  const previousDay = addDays(connectionsForm.departureDate, value);
+  connectionsForm.departureDate = previousDay;
   await searchConnections(previousDay);
 };
 </script>

@@ -27,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import type { ICAvailableConnectionsResponse } from "~/server/api/types";
+import type { ICAvailableConnectionsResponse } from "~/server/types";
 import AvailableConnection from "./AvailableConnection.vue";
 
 const props = defineProps<{ result: ICAvailableConnectionsResponse }>();

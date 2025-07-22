@@ -34,22 +34,12 @@
           </div>
         </div>
 
-        <div v-if="train.zestawieniaPociagowLink" class="mt-3">
-          <a
-            :href="train.zestawieniaPociagowLink"
-            target="_blank"
-            rel="noopener"
-          >
-            <Button
-              label="Zestawienie pociągu"
-              icon="pi pi-file-pdf"
-              severity="info"
-              size="small"
-            />
-          </a>
-        </div>
-
-        <Button label="Choose connection" size="small" />
+        <Button
+          label="Choose connection"
+          size="small"
+          @click="checkConnection"
+          :loading="loading"
+        />
       </div>
     </template>
   </Card>
@@ -58,11 +48,18 @@
 <script setup lang="ts">
 import { format } from "date-fns";
 
-import type { ICConnection } from "~/server/api/types";
+import type { ICConnection } from "~/server/types";
+
+import { useIndexStore } from "@/stores/index";
+
+const { connectionsForm } = useIndexStore();
 
 const props = defineProps<{ result: ICConnection }>();
+console.log(props.result);
 const train = props.result.pociagi[0];
-
+const loading = ref(false);
+const error = ref<string | null>(null);
+const result = ref<null>(null);
 const formatDate = (dateStr: string): string =>
   format(new Date(dateStr), "PPPP");
 
@@ -73,6 +70,32 @@ const durationFormatted = `${Math.floor(train.czasJazdy / 60)}h ${
   train.czasJazdy % 60
 }min`;
 
-//@todo -> po kliknieciu choose connection wrzucamy request pod https://bilkom.pl/grm (trzeba zrobic endpoint pod to) zeby zobaczyc cala trase, jak ok to dajemy info ze jest miejsca
+const checkConnection = async () => {
+  loading.value = true;
+  error.value = null;
+  result.value = null;
+
+  try {
+    const payload = {
+      vehicleNumber: train.nrPociagu,
+      departureDate: train.dataWyjazdu.replace(" ", "T"),
+      arrivalDate: train.dataPrzyjazdu.replace(" ", "T"),
+      stationFrom: connectionsForm.stationFrom?.id,
+      stationTo: connectionsForm.stationTo?.id,
+    };
+
+    const { data } = await $fetch("/api/seats", {
+      method: "POST",
+      body: payload,
+    });
+
+    console.log(data, "HERE");
+  } catch (err: any) {
+    error.value = "An error occurred while fetching route data";
+  } finally {
+    loading.value = false;
+  }
+};
+//@todo -> obsluga zwrotki po kliknieciu, jak ok to dajemy info ze jest miejsca
 // jesli nie, to rzucamy request pod /api/route, pobiermay trase i dzielimy....
 </script>
