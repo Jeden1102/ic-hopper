@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-[300vh]">
+  <div>
     <HomeHero />
     <HomeBento />
     <HomeNumbers />
