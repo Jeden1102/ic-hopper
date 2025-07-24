@@ -56,9 +56,10 @@
           {{ error }}
         </div>
 
-        <div v-if="result">
+        <div>
           <AvailableConnections
             :result="result"
+            :loading="loading"
             @previous-day="handleChangeDay(-1)"
             @next-day="handleChangeDay(1)"
           />

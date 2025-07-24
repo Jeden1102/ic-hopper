@@ -100,3 +100,13 @@ export type ICTrain = {
   zestawieniaPociagowLink: string;
   wirtualnaWycieczkaLink: string;
 };
+
+type avaiableSeats = {
+  number: number;
+  properties: string[];
+};
+
+export type ConnectionSeats = {
+  avaiableSeats: avaiableSeats[];
+  carriageNumber: number;
+};

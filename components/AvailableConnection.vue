@@ -37,6 +37,7 @@
         <NuxtLink
           :to="generateConnectionLink()"
           @click="() => setChoosenConnection(result)"
+          v-if="variant !== 'simple'"
         >
           <Button label="Choose connection" size="small" />
         </NuxtLink>
@@ -54,8 +55,7 @@ import { useIndexStore } from "@/stores/index";
 
 const { connectionsForm, setChoosenConnection } = useIndexStore();
 
-const props = defineProps<{ result: ICConnection }>();
-console.log(props.result);
+const props = defineProps<{ result: ICConnection; variant?: string }>();
 const train = props.result.pociagi[0];
 const formatDate = (dateStr: string): string =>
   format(new Date(dateStr), "PPPP");

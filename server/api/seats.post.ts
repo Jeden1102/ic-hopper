@@ -14,16 +14,36 @@ export default defineEventHandler(async (event) => {
       returnBGMRecordsInfo: false,
     };
 
-    console.log(body);
-
     const res = await $fetch("https://bilkom.pl/grm", {
       method: "POST",
       body: JSON.stringify(body),
     });
 
+    const filteredCarriages = res.carriages
+      .map((carriage) => {
+        const availableSeats = (carriage.spots || []).filter((spot) => {
+          return (
+            spot.status === "AVAILABLE" &&
+            spot.serviceType === "SEAT" &&
+            spot.properties?.includes("CLASS_2") &&
+            !spot.properties?.includes("HANDICAPPED_WITH_WHEELCHAIR") &&
+            !spot.properties?.includes("HANDICAPPED_GUARDIAN")
+          );
+        });
+
+        return {
+          carriageNumber: carriage.carriageNumber,
+          availableSeats: availableSeats.map((seat) => ({
+            number: seat.number,
+            properties: seat.properties,
+          })),
+        };
+      })
+      .filter((c) => c.availableSeats.length > 0);
+
     return {
       success: true,
-      data: res,
+      data: filteredCarriages,
     };
   } catch (err: any) {
     throw createError({

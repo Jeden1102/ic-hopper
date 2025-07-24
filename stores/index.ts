@@ -17,6 +17,7 @@ export const useIndexStore = defineStore("index", () => {
 
   const setChoosenConnection = (train: ICConnection) => {
     choosenConnection.value = train;
+    sessionStorage.setItem("choosenConnection", JSON.stringify(train));
   };
 
   return { connectionsForm, choosenConnection, setChoosenConnection };

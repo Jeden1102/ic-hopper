@@ -32,7 +32,16 @@
               data-aos="fade-up"
               data-aos-delay="200"
             >
-              <Button label="Sprawdz połączenie" type="button" />
+              <Button
+                asChild
+                v-slot="slotProps"
+                label="Sprawdz połączenie"
+                type="button"
+              >
+                <RouterLink to="/seat-hopper" :class="slotProps.class"
+                  >Sprawdź połączenie</RouterLink
+                >
+              </Button>
               <Button label="Jak to dziala?" type="button" outlined />
             </div>
           </div>
