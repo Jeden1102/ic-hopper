@@ -1,6 +1,7 @@
 <template>
   <div
     class="relative min-h-[40rem] lg:min-h-screen bg-surface-0 dark:bg-surface-900 flex lg:flex-row flex-col"
+    data-aos="fade-up"
   >
     <div
       class="flex lg:flex lg:flex-row flex-col justify-center md:justify-normal flex-1"
