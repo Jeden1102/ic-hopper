@@ -26,14 +26,21 @@ export default defineEventHandler(async (event) => {
       {
         method: "POST",
         body: JSON.stringify(body),
+        headers: {
+          "Content-Type": "application/json",
+          "User-Agent": "Mozilla/5.0",
+        },
       }
     );
+
+    console.log(res, "HERE");
 
     return {
       success: true,
       data: JSON.parse(res as string),
     };
   } catch (err: any) {
+    console.log(err, "HERE");
     throw createError({
       statusCode: 500,
       statusMessage: "Internal Server Error",
