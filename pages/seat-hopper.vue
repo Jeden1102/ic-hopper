@@ -1,6 +1,6 @@
 <template>
-  <Card class="max-w-xl mx-auto p-6 space-y-6">
-    <template #title>Seat Hopper</template>
+  <Card class="mx-auto p-6 space-y-6 my-40 md:min-w-135" data-aos="fade-up">
+    <template #title>Sprawdz połączenie</template>
     <template #content>
       <div class="space-y-4">
         <div class="flex gap-2">
@@ -9,13 +9,13 @@
             :suggestions="stationSuggestions"
             @complete="searchStations"
             option-label="name"
-            placeholder="Select departure station"
+            placeholder="Stacja odjazdu"
             class="w-full [&>input]:w-full"
           />
           <button @click="swapStations">
             <Icon
               name="material-symbols-light:swap-horizontal-circle"
-              class="text-[#10b981]"
+              class="text-primary"
               size="28"
             />
           </button>
@@ -24,7 +24,7 @@
             :suggestions="stationSuggestions"
             @complete="searchStations"
             option-label="name"
-            placeholder="Select arrival station"
+            placeholder="Stacja przyjazdu"
             class="w-full [&>input]:w-full"
           />
         </div>
@@ -34,7 +34,7 @@
             v-model="connectionsForm.departureDate"
             showIcon
             fluid
-            placeholder="Departure Date"
+            placeholder="Data wyjazdu"
             class="flex-1"
             :stepMinute="1"
             showButtonBar
@@ -42,7 +42,7 @@
           />
         </div>
         <Button
-          label="Find connections"
+          label="Wyszukaj połączenia"
           @click="submitForm"
           class="mt-4"
           :loading="loading"

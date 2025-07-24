@@ -1,6 +1,9 @@
 <template>
   <div v-if="result.bledy.length > 0">
-    <Message severity="info">No route found. Try changing your search.</Message>
+    <Message severity="info"
+      >Nie znaleziono połączeń. Spróbuj ponownie.</Message
+    >
+
     <div class="flex justify-between my-8">
       <Button
         label="Previous day"

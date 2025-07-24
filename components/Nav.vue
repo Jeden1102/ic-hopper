@@ -14,7 +14,7 @@
     <div
       :class="
         cn(
-          'flex flex-col justify-center md:flex-row md:items-center md:gap-12 transition-all duration-300',
+          'flex flex-col gap-4 justify-center md:flex-row md:items-center md:gap-12 transition-all duration-300',
           scrolled && !menuActive && 'md:-translate-y-full opacity-0'
         )
       "
@@ -22,11 +22,11 @@
       <NuxtLink to="/" :class="cn('md:mr-8 fixed left-6 top-6 md:static')">
         <NuxtImg src="/images/logo.png" alt="logo" width="180" />
       </NuxtLink>
-      <NuxtLink class="font-medium text-5xl md:text-base" to="/">
-        Home
+      <NuxtLink class="font-medium text-4xl md:text-base" to="/">
+        Strona główna
       </NuxtLink>
-      <NuxtLink class="font-medium text-5xl md:text-base" to="/seat-hopper">
-        Find connection
+      <NuxtLink class="font-medium text-4xl md:text-base" to="/seat-hopper">
+        Sprawdz połączenie
       </NuxtLink>
     </div>
 

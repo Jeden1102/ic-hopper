@@ -1,7 +1,6 @@
 <template>
   <div
     class="relative min-h-[40rem] lg:min-h-screen bg-surface-0 dark:bg-surface-900 flex lg:flex-row flex-col"
-    data-aos="fade-up"
   >
     <div
       class="flex lg:flex lg:flex-row flex-col justify-center md:justify-normal flex-1"
@@ -14,21 +13,27 @@
             <h1
               class="text-4xl xl:text-5xl font-bold text-surface-0 lg:text-surface-900 dark:text-surface-0 mb-6 !leading-tight"
             >
-              <span class="block">Forget about standing in the trains</span>
+              <span class="block" data-aos="fade-up"
+                >Zapomnij o braku miejsca w pociagu!</span
+              >
             </h1>
 
             <p
               class="text-surface-0/90 lg:text-surface-700 dark:text-surface-200 text-xl leading-normal mb-8 max-w-xl lg:max-w-none"
+              data-aos="fade-up"
+              data-aos-delay="100"
             >
-              Your connection is fully packed? Dont't worry! We are here to help
-              you find the train seats for you.
+              Twoje połączenie jest pelne? Uzyj naszej wyszukiwarki aby znalźć
+              wolne miejsca!
             </p>
 
             <div
               class="flex items-center gap-4 justify-center lg:justify-start"
+              data-aos="fade-up"
+              data-aos-delay="200"
             >
-              <Button label="Find connection" type="button" />
-              <Button label="How does it work" type="button" outlined />
+              <Button label="Sprawdz połączenie" type="button" />
+              <Button label="Jak to dziala?" type="button" outlined />
             </div>
           </div>
         </div>
@@ -40,6 +45,8 @@
         />
         <NuxtImg
           src="/images/hero.jpg"
+          format="webp"
+          width="920"
           class="h-full w-full object-cover lg:[clip-path:polygon(12%_0,100%_0%,100%_100%,0_100%)]"
         />
       </div>

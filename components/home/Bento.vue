@@ -1,15 +1,24 @@
 <template>
-  <div class="py-24 sm:py-32" data-aos="fade-up">
+  <div class="py-24 sm:py-32">
     <div class="mx-auto max-w-2xl px-6 lg:max-w-7xl lg:px-8">
-      <h2 class="text-center text-base/7 font-semibold text-primary">
-        Features
+      <h2
+        class="text-center text-base/7 font-semibold text-primary"
+        data-aos="fade-up"
+      >
+        Funkcje
       </h2>
       <p
         class="mx-auto mt-2 max-w-lg text-center text-4xl font-semibold tracking-tight text-balance sm:text-5xl"
+        data-aos="fade-up"
+        data-aos-delay="100"
       >
-        How does it work?
+        Jak to działa?
       </p>
-      <div class="mt-10 grid gap-4 sm:mt-16 lg:grid-cols-3 lg:grid-rows-2">
+      <div
+        class="mt-10 grid gap-4 sm:mt-16 lg:grid-cols-3 lg:grid-rows-2"
+        data-aos="fade-up"
+        data-aos-delay="200"
+      >
         <!-- Feature 1 -->
         <div class="relative lg:row-span-2">
           <div
@@ -22,14 +31,13 @@
               <p
                 class="mt-2 text-lg font-medium tracking-tight text-gray-950 max-lg:text-center"
               >
-                Smart Route Stitching
+                Sprytne łączenie tras
               </p>
               <p
                 class="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center"
               >
-                If no direct seats are available, the app automatically looks
-                for alternate routes with available seating by combining
-                connecting trains.
+                Gdy brak miejsc na trasie bezpośredniej, aplikacja automatycznie
+                wyszukuje połączenia z przesiadkami, łącząc dostępne odcinki.
               </p>
             </div>
             <div
@@ -63,13 +71,13 @@
               <p
                 class="mt-2 text-lg font-medium tracking-tight text-gray-950 max-lg:text-center"
               >
-                Real-time Seat Availability
+                Dostępność miejsc w czasie rzeczywistym
               </p>
               <p
                 class="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center"
               >
-                Instantly checks seat availability across all segments of your
-                journey using live Intercity data.
+                Natychmiastowe sprawdzanie dostępności miejsc na wszystkich
+                odcinkach podróży dzięki aktualnym danym z Intercity.
               </p>
             </div>
             <div
@@ -97,13 +105,13 @@
               <p
                 class="mt-2 text-lg font-medium tracking-tight text-gray-950 max-lg:text-center"
               >
-                Passenger-friendly UX
+                Przyjazny interfejs użytkownika
               </p>
               <p
                 class="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center"
               >
-                Clean, intuitive interface makes planning multi-leg journeys
-                simple, even when options are complex.
+                Przejrzysty i intuicyjny interfejs ułatwia planowanie złożonych
+                podróży nawet z wieloma przesiadkami.
               </p>
             </div>
             <div
@@ -133,13 +141,14 @@
               <p
                 class="mt-2 text-lg font-medium tracking-tight text-gray-950 max-lg:text-center"
               >
-                Integrated API for Developers
+                Zintegrowane API dla deweloperów
               </p>
               <p
                 class="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center"
               >
-                Open, extensible API to integrate train searches and connections
-                into third-party apps or internal systems.
+                Otwarte i rozszerzalne API umożliwia integrację wyszukiwania
+                połączeń kolejowych z aplikacjami zewnętrznymi lub systemami
+                wewnętrznymi.
               </p>
             </div>
             <div class="relative min-h-120 w-full grow">
