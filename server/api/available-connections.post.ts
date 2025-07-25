@@ -28,12 +28,20 @@ export default defineEventHandler(async (event) => {
         body: JSON.stringify(body),
         headers: {
           "Content-Type": "application/json",
-          "User-Agent":
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
           Accept: "application/json, text/plain, */*",
-          "Accept-Language": "pl-PL,pl;q=0.9,en;q=0.8",
-          Referer: "https://intercity.pl/",
-          Origin: "https://intercity.pl",
+          "Accept-Encoding": "gzip, deflate, br, zstd",
+          "Accept-Language": "pl-PL,pl;q=0.9,en-US;q=0.8,en;q=0.7",
+          Origin: "https://ebilet.intercity.pl",
+          Referer: "https://ebilet.intercity.pl/",
+          "User-Agent":
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36",
+          "Sec-Ch-Ua":
+            '"Not)A;Brand";v="8", "Chromium";v="138", "Google Chrome";v="138"',
+          "Sec-Ch-Ua-Mobile": "?0",
+          "Sec-Ch-Ua-Platform": '"macOS"',
+          "Sec-Fetch-Dest": "empty",
+          "Sec-Fetch-Mode": "cors",
+          "Sec-Fetch-Site": "same-site",
         },
       }
     );
