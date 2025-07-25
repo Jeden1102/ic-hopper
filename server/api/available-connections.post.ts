@@ -22,26 +22,12 @@ export default defineEventHandler(async (event) => {
     };
 
     const res = await $fetch(
-      "https://api-gateway.intercity.pl/server/public/endpoint/Pociagi",
+      "http://217.154.211.149/intercity-proxy/intercity",
       {
         method: "POST",
         body: JSON.stringify(body),
         headers: {
           "Content-Type": "application/json",
-          Accept: "application/json, text/plain, */*",
-          "Accept-Encoding": "gzip, deflate, br, zstd",
-          "Accept-Language": "pl-PL,pl;q=0.9,en-US;q=0.8,en;q=0.7",
-          Origin: "https://ebilet.intercity.pl",
-          Referer: "https://ebilet.intercity.pl/",
-          "User-Agent":
-            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36",
-          "Sec-Ch-Ua":
-            '"Not)A;Brand";v="8", "Chromium";v="138", "Google Chrome";v="138"',
-          "Sec-Ch-Ua-Mobile": "?0",
-          "Sec-Ch-Ua-Platform": '"macOS"',
-          "Sec-Fetch-Dest": "empty",
-          "Sec-Fetch-Mode": "cors",
-          "Sec-Fetch-Site": "same-site",
         },
       }
     );
