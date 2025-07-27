@@ -2,7 +2,9 @@
   <div>
     <HomeHero />
     <HomeBento />
-    <HomeNumbers />
+    <ClientOnly>
+      <HomeNumbers />
+    </ClientOnly>
     <HomeCompanies />
   </div>
 </template>
