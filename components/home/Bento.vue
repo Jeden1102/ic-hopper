@@ -33,9 +33,7 @@
               >
                 Przyjazny interfejs użytkownika
               </p>
-              <p
-                class="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center"
-              >
+              <p class="mt-2 max-w-lg text-gray-600 max-lg:text-center">
                 Przejrzysty i intuicyjny interfejs ułatwia planowanie złożonych
                 podróży nawet z wieloma przesiadkami.
               </p>
@@ -67,9 +65,7 @@
               >
                 Dostępność miejsc w czasie rzeczywistym
               </p>
-              <p
-                class="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center"
-              >
+              <p class="mt-2 max-w-lg text-gray-600 max-lg:text-center">
                 Natychmiastowe sprawdzanie dostępności miejsc na wszystkich
                 odcinkach podróży dzięki aktualnym danym z Intercity.
               </p>
@@ -101,9 +97,7 @@
               >
                 Sprytne łączenie tras
               </p>
-              <p
-                class="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center"
-              >
+              <p class="mt-2 max-w-lg text-gray-600 max-lg:text-center">
                 Gdy brak miejsc na trasie bezpośredniej, aplikacja automatycznie
                 wyszukuje połączenia z przesiadkami, łącząc dostępne odcinki.
               </p>
@@ -137,9 +131,7 @@
               >
                 Zapisuj i udostępniaj
               </p>
-              <p
-                class="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center"
-              >
+              <p class="mt-2 max-w-lg text-gray-600 max-lg:text-center">
                 Planujesz podróż? Zapisz trasę i wróć do niej później, kiedy
                 tylko chcesz. Udostępniaj swoje trasy znajomym, rodzinie lub
                 współpracownikom – szybko i wygodnie, jednym kliknięciem.

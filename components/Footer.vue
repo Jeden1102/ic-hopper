@@ -25,7 +25,7 @@
       </div>
     </div>
     <div class="container mx-auto border-t border-gray-300 py-4 md:pb-8">
-      <p class="text-center text-sm">
+      <p class="text-cente">
         © {{ currentYear }} Stworzone przez
         <NuxtLink to="https://github.com/Jeden1102">jeden1102</NuxtLink>
       </p>

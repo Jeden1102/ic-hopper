@@ -11,20 +11,20 @@
             class="w-fit max-w-11/12 lg:max-w-2xl px-6 py-12 lg:p-12 xl:p-16 text-center rounded-2xl lg:text-left bg-white/70 backdrop-blur-sm"
           >
             <h1
-              class="text-3xl xl:text-5xl font-normal text-surface-0 lg:text-surface-900 dark:text-surface-0 mb-6 !leading-tight"
+              class="text-3xl xl:text-5xl font-semibold text-surface-0 lg:text-surface-900 dark:text-surface-0 mb-6 leading-tight"
+              data-aos="fade-up"
             >
-              <span class="block" data-aos="fade-up"
-                >Zapomnij o braku miejsca w pociagu!</span
-              >
+              Znajdź wolne miejsce, nawet gdy pociąg jest pełny
             </h1>
 
             <p
-              class="text-surface-0/90 lg:text-surface-700 dark:text-surface-200 text-lg leading-normal mb-8 max-w-xl lg:max-w-none"
+              class="text-surface-0/90 lg:text-surface-700 dark:text-surface-200 text-lg leading-relaxed mb-8 max-w-xl lg:max-w-none"
               data-aos="fade-up"
               data-aos-delay="100"
             >
-              Twoje połączenie jest pelne? Uzyj naszej wyszukiwarki aby znalźć
-              wolne miejsca!
+              Nasze narzędzie sprawdza dostępność miejsc na całej trasie i
+              pomaga znaleźć najlepsze połączenie — z miejscem siedzącym bez
+              konieczności rezygnacji z podróży.
             </p>
 
             <div
@@ -62,9 +62,12 @@
         />
         <NuxtImg
           src="/images/hero.jpg"
+          preload
+          sizes="100vw sm:50vw"
           format="webp"
           width="920"
           class="h-full w-full object-cover lg:[clip-path:polygon(12%_0,100%_0%,100%_100%,0_100%)]"
+          alt="Zdjęcie pracowników pociągu obok pociągu"
         />
       </div>
     </div>

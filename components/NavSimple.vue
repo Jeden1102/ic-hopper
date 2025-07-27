@@ -10,8 +10,9 @@
     <NuxtLink to="/" class="mr-8 static">
       <NuxtImg
         src="/images/logo.png"
-        alt="logo"
+        alt="Logo strony"
         width="180"
+        height="25"
         class="w-30 md:w-45"
       />
     </NuxtLink>

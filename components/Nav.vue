@@ -20,7 +20,12 @@
       "
     >
       <NuxtLink to="/" :class="cn('md:mr-8 fixed left-6 top-6 md:static')">
-        <NuxtImg src="/images/logo.png" alt="logo" width="180" />
+        <NuxtImg
+          src="/images/logo.png"
+          alt="Logo strony"
+          width="180"
+          height="25"
+        />
       </NuxtLink>
       <NuxtLink class="font-medium text-4xl md:text-base" to="/">
         Strona główna
@@ -40,6 +45,7 @@
         "
         @click="menuActive = !menuActive"
         rounded
+        title="Wyświetl menu"
       >
         <Icon v-if="!menuActive" name="solar:hamburger-menu-linear" />
         <Icon v-else name="material-symbols:close-rounded" />
