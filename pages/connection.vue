@@ -1,5 +1,5 @@
 <template>
-  <Card class="max-w-xl mx-auto min-w-135 my-40">
+  <Card class="max-w-xl mx-auto md:max-w-135 w-full my-10 md:my-40">
     <template #content>
       <AvailableConnection
         v-if="indexStore.choosenConnection"
@@ -31,6 +31,13 @@
 import { useIndexStore } from "@/stores/index";
 import AvailableConnection from "~/components/AvailableConnection.vue";
 import type { ConnectionSeats } from "~/server/types";
+import { useWindowSize } from "@vueuse/core";
+
+const { width } = useWindowSize();
+
+definePageMeta({
+  layout: width.value < 768 ? "simple" : "default",
+});
 
 const indexStore = useIndexStore();
 

@@ -82,7 +82,9 @@ import { ref, computed } from "vue";
 import AvailableConnections from "~/components/AvailableConnections.vue";
 import type { ICAvailableConnectionsResponse } from "~/server/types";
 import { useIndexStore } from "@/stores/index";
+import { useRoute } from "vue-router";
 
+const route = useRoute();
 const { connectionsForm } = useIndexStore();
 interface Station {
   id: string;
@@ -167,4 +169,10 @@ const handleChangeDay = async (value: number) => {
   connectionsForm.departureDate = previousDay;
   await searchConnections(previousDay);
 };
+
+onMounted(() => {
+  if (route.query.back) {
+    submitForm();
+  }
+});
 </script>
