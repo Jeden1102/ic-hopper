@@ -2,7 +2,7 @@
   <nav
     :class="
       cn(
-        'w-full h-full flex-col md:flex-row py-40 items-start -top-full fixed md:top-6 left-0 right-0 z-50 md:container mx-auto md:py-6 px-8 flex md:h-auto md:justify-between md:items-center md:rounded-2xl transition-all md:duration-300 duration-500',
+        'w-full h-full flex-col md:flex-row py-40  items-start -top-full fixed md:top-6 left-0 right-0 z-50 md:container mx-auto md:py-6 px-8 flex md:h-auto md:justify-between md:items-center md:rounded-2xl transition-all md:duration-300 duration-500',
         scrolled && 'backdrop-blur-md shadow-sm ',
         menuActive && 'top-0 bg-white md:bg-white/50',
         scrolled &&

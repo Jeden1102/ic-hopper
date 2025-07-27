@@ -101,12 +101,31 @@ export type ICTrain = {
   wirtualnaWycieczkaLink: string;
 };
 
-type avaiableSeats = {
+export type Seat = {
   number: number;
   properties: string[];
 };
 
-export type ConnectionSeats = {
-  avaiableSeats: avaiableSeats[];
+type ConnectionSeat = {
+  availableSeats: Seat[];
   carriageNumber: number;
 };
+
+export type ConnectionSeats = {
+  data: ConnectionSeat[];
+};
+
+export type RouteStation = {
+  kodStacji: string;
+  nazwaStacji: string;
+  dataWyjazdu: string;
+  dataPrzyjazdu: string;
+};
+
+export interface SegmentWithSeat {
+  from: RouteStation;
+  to: RouteStation;
+  carriageNumber: number | null;
+  seatNumber: number | null;
+  standing: boolean;
+}

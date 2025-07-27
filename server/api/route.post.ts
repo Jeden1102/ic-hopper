@@ -6,7 +6,6 @@ export default defineEventHandler(async (event) => {
       "stationTo",
       "vehicleNumber",
       "departureDate",
-      "category",
     ];
     for (const field of requiredFields) {
       if (!requestBody[field]) {
@@ -36,7 +35,7 @@ export default defineEventHandler(async (event) => {
 
     return {
       success: true,
-      data: res,
+      data: JSON.parse(res as string),
     };
   } catch (err: any) {
     throw createError({

@@ -6,46 +6,84 @@
         :result="indexStore.choosenConnection"
         variant="simple"
       />
+
       <div v-if="result && result.length > 0" class="my-4 flex flex-col gap-4">
-        <Message
-          >Na tej trasie dostępne są miejsca siedzące. Brak konieczności
-          podziału trasy.</Message
-        >
+        <Message>
+          Na tej trasie dostępne są miejsca siedzące. Brak konieczności podziału
+          trasy.
+        </Message>
         <Button
           asChild
           v-slot="slotProps"
-          label="Sprawdz połączenie"
+          label="Sprawdź połączenie"
           type="button"
         >
-          <RouterLink to="/seat-hopper" :class="slotProps.class"
-            >Wyszukaj inne połączenie</RouterLink
-          >
+          <RouterLink to="/seat-hopper" :class="slotProps.class">
+            Wyszukaj inne połączenie
+          </RouterLink>
         </Button>
       </div>
-      <!-- @todo -> obsługa dzielenia tras -->
+
+      <div
+        v-if="seatHopperSegments && seatHopperSegments.length > 0"
+        class="my-4 space-y-2"
+      >
+        <Message>Podzielona trasa z dostępnością miejsc:</Message>
+        <ul class="text-sm text-gray-800">
+          <li
+            v-for="segment in seatHopperSegments"
+            :key="segment.from.kodStacji"
+          >
+            {{ segment.from.nazwaStacji }} → {{ segment.to.nazwaStacji }} —
+            <span v-if="segment.standing"
+              >Brak miejsc — przejazd na stojąco</span
+            >
+            <span v-else
+              >Wagon {{ segment.carriageNumber }}, miejsce
+              {{ segment.seatNumber }}</span
+            >
+          </li>
+        </ul>
+      </div>
+
+      <div
+        v-if="fullRoute && !seatHopperSegments?.length && !result?.length"
+        class="mt-4"
+      >
+        <Message variant="destructive"
+          >Brak możliwości podziału trasy z miejscami siedzącymi.</Message
+        >
+      </div>
     </template>
   </Card>
 </template>
 
 <script setup lang="ts">
 import { useIndexStore } from "@/stores/index";
+import { useSeatHopper } from "@/composables/useSeatHopper";
 import AvailableConnection from "~/components/AvailableConnection.vue";
-import type { ConnectionSeats } from "~/server/types";
 import { useWindowSize } from "@vueuse/core";
+import type { ICRouteResponse } from "~/server/types";
+import type { ConnectionSeats } from "~/server/types";
+import type { SegmentWithSeat, RouteStation } from "~/server/types";
 
 const { width } = useWindowSize();
+const indexStore = useIndexStore();
 
 definePageMeta({
   layout: width.value < 768 ? "simple" : "default",
 });
 
-const indexStore = useIndexStore();
+const route = useRoute();
 
 const loading = ref(false);
 const error = ref<string | null>(null);
 const result = ref<null | ConnectionSeats[]>(null);
+const fullRoute = ref<null | ICRouteResponse>(null);
+const seatHopperSegments = ref<SegmentWithSeat[] | null>(null);
 
-const route = useRoute();
+const { generateRouteSegments, checkSeatsForSegments, findValidSeatPath } =
+  useSeatHopper();
 
 const checkConnection = async () => {
   loading.value = true;
@@ -66,20 +104,60 @@ const checkConnection = async () => {
       body: payload,
     });
 
-    console.log(data, "HERE");
-    result.value = data;
+    result.value = data as ConnectionSeats[];
+
+    if (!result.value || result.value.length === 0) {
+      await getFullRouteAndSegmentedSeats();
+    }
   } catch (err: any) {
-    error.value = "An error occurred while fetching route data";
+    error.value = "Wystąpił błąd przy sprawdzaniu dostępności miejsc.";
   } finally {
     loading.value = false;
   }
 };
 
+const getFullRouteAndSegmentedSeats = async () => {
+  try {
+    const payload = {
+      vehicleNumber: route.query.vehicleNumber,
+      departureDate: route.query.departureDate,
+      stationFrom: route.query.stationFrom,
+      stationTo: route.query.stationTo,
+    };
+
+    const { data } = await $fetch("/api/route", {
+      method: "POST",
+      body: payload,
+    });
+
+    fullRoute.value = data as ICRouteResponse;
+
+    const stations = fullRoute.value.trasePrzejezdu
+      .trasaPrzejazdu as RouteStation[];
+
+    if (!stations || stations.length === 0) return;
+
+    const segments = generateRouteSegments(stations);
+    const seatsPerSegment = await checkSeatsForSegments(
+      segments,
+      route.query.vehicleNumber as string,
+      route.query.departureDate as string
+    );
+
+    const finalPath = findValidSeatPath(seatsPerSegment, stations);
+    seatHopperSegments.value = finalPath;
+  } catch (err) {
+    error.value =
+      "Błąd przy pobieraniu szczegółowej trasy lub dostępnych miejsc.";
+  }
+};
+
 const checkChoosenConnection = () => {
   if (!indexStore.choosenConnection) {
-    indexStore.setChoosenConnection(
-      JSON.parse(sessionStorage.getItem("choosenConnection") as string)
-    );
+    const saved = sessionStorage.getItem("choosenConnection");
+    if (saved) {
+      indexStore.setChoosenConnection(JSON.parse(saved));
+    }
   }
 };
 
