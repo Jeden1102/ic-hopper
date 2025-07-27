@@ -31,27 +31,21 @@
               <p
                 class="mt-2 text-lg font-medium tracking-tight text-gray-950 max-lg:text-center"
               >
-                Sprytne łączenie tras
+                Przyjazny interfejs użytkownika
               </p>
               <p
                 class="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center"
               >
-                Gdy brak miejsc na trasie bezpośredniej, aplikacja automatycznie
-                wyszukuje połączenia z przesiadkami, łącząc dostępne odcinki.
+                Przejrzysty i intuicyjny interfejs ułatwia planowanie złożonych
+                podróży nawet z wieloma przesiadkami.
               </p>
             </div>
-            <div
-              class="@container relative min-h-120 w-full grow max-lg:mx-auto max-lg:max-w-sm"
-            >
-              <div
-                class="absolute inset-x-10 top-10 bottom-0 overflow-hidden rounded-t-[12cqw] border-x-[3cqw] border-t-[3cqw] border-gray-700 bg-gray-900 shadow-2xl"
-              >
-                <img
-                  src="https://tailwindcss.com/plus-assets/img/component-images/bento-03-mobile-friendly.png"
-                  alt=""
-                  class="size-full object-cover object-top"
-                />
-              </div>
+            <div class="relative w-full grow max-lg:mx-auto max-lg:max-w-sm">
+              <Lottie
+                animationLink="/lottie/webpage.json"
+                :height="400"
+                :width="400"
+              />
             </div>
           </div>
           <div
@@ -83,10 +77,10 @@
             <div
               class="flex flex-1 items-center justify-center px-8 max-lg:pt-10 max-lg:pb-12 sm:px-10 lg:pb-2"
             >
-              <img
-                src="https://tailwindcss.com/plus-assets/img/component-images/bento-03-performance.png"
-                alt=""
-                class="w-full max-lg:max-w-xs"
+              <Lottie
+                animationLink="/lottie/live.json"
+                :height="150"
+                :width="150"
               />
             </div>
           </div>
@@ -105,22 +99,22 @@
               <p
                 class="mt-2 text-lg font-medium tracking-tight text-gray-950 max-lg:text-center"
               >
-                Przyjazny interfejs użytkownika
+                Sprytne łączenie tras
               </p>
               <p
                 class="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center"
               >
-                Przejrzysty i intuicyjny interfejs ułatwia planowanie złożonych
-                podróży nawet z wieloma przesiadkami.
+                Gdy brak miejsc na trasie bezpośredniej, aplikacja automatycznie
+                wyszukuje połączenia z przesiadkami, łącząc dostępne odcinki.
               </p>
             </div>
             <div
               class="@container flex flex-1 items-center max-lg:py-6 lg:pb-2"
             >
-              <img
-                src="https://tailwindcss.com/plus-assets/img/component-images/bento-03-security.png"
-                alt=""
-                class="h-[min(152px,40cqw)] object-cover"
+              <Lottie
+                animationLink="/lottie/merge.json"
+                :height="150"
+                :width="150"
               />
             </div>
           </div>
@@ -141,33 +135,24 @@
               <p
                 class="mt-2 text-lg font-medium tracking-tight text-gray-950 max-lg:text-center"
               >
-                Zintegrowane API dla deweloperów
+                Zapisuj i udostępniaj
               </p>
               <p
                 class="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center"
               >
-                Otwarte i rozszerzalne API umożliwia integrację wyszukiwania
-                połączeń kolejowych z aplikacjami zewnętrznymi lub systemami
-                wewnętrznymi.
+                Planujesz podróż? Zapisz trasę i wróć do niej później, kiedy
+                tylko chcesz. Udostępniaj swoje trasy znajomym, rodzinie lub
+                współpracownikom – szybko i wygodnie, jednym kliknięciem.
               </p>
             </div>
-            <div class="relative min-h-120 w-full grow">
-              <div
-                class="absolute top-10 right-0 bottom-0 left-10 overflow-hidden rounded-tl-xl bg-gray-900 shadow-2xl outline outline-white/10"
-              >
-                <div class="flex bg-gray-900 outline outline-white/5">
-                  <div class="-mb-px flex text-sm/6 font-medium text-gray-400">
-                    <div
-                      class="border-r border-b border-r-white/10 border-b-white/20 bg-white/5 px-4 py-2 text-white"
-                    >
-                      NotificationSetting.jsx
-                    </div>
-                    <div class="border-r border-gray-600/10 px-4 py-2">
-                      App.jsx
-                    </div>
-                  </div>
-                </div>
-              </div>
+            <div
+              class="@container flex flex-1 items-center max-lg:py-6 lg:pb-2"
+            >
+              <Lottie
+                animationLink="/lottie/save.json"
+                :height="150"
+                :width="150"
+              />
             </div>
           </div>
           <div

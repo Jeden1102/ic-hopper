@@ -14,5 +14,12 @@
     * {
       @apply font-roboto;
     }
+
+    .lottie-animation-container {
+      @apply relative;
+      &::after {
+        @apply content-[""] block w-full absolute left-0 bottom-0 h-8 bg-white;
+      }
+    }
   }
 }
