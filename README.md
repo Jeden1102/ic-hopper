@@ -1,10 +1,10 @@
-# Nuxt Minimal Starter
+# Seat hopper
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+# Technologies used
 
-## Setup
+Nuxt, ts, tailwind
 
-Make sure to install dependencies:
+## Installation/setup
 
 ```bash
 # npm
@@ -72,4 +72,12 @@ yarn preview
 bun run preview
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+## Live version
+
+See me live !
+https://dominikraducki.works/FoodPenguin/#/
+
+
+
+## License
+[MIT](https://choosealicense.com/licenses/mit/)

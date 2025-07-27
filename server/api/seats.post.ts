@@ -1,4 +1,5 @@
 export default defineEventHandler(async (event) => {
+  const { apiSeats } = useRuntimeConfig(event);
   try {
     const requestBody = await readBody(event);
 
@@ -14,7 +15,7 @@ export default defineEventHandler(async (event) => {
       returnBGMRecordsInfo: false,
     };
 
-    const res = await $fetch("https://bilkom.pl/grm", {
+    const res = await $fetch(`${apiSeats}/grm`, {
       method: "POST",
       body: JSON.stringify(body),
     });

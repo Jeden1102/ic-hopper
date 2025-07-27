@@ -53,9 +53,10 @@ import type { ICConnection } from "~/server/types";
 
 import { useIndexStore } from "@/stores/index";
 
+const props = defineProps<{ result: ICConnection; variant?: string }>();
+
 const { connectionsForm, setChoosenConnection } = useIndexStore();
 
-const props = defineProps<{ result: ICConnection; variant?: string }>();
 const train = props.result.pociagi[0];
 const formatDate = (dateStr: string): string =>
   format(new Date(dateStr), "PPPP", { locale: pl });

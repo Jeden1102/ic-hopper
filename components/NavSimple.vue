@@ -1,11 +1,19 @@
 <template>
-  <nav class="flex gap-4 p-4 justify-between">
-    <button @click="goBack" class="flex gap-2 text-primary">
+  <nav class="flex gap-4 p-4 justify-between md:w-135 mx-auto w-full">
+    <button
+      @click="goBack"
+      class="flex gap-2 text-primary md:text-xl items-center"
+    >
       <Icon name="material-symbols:keyboard-double-arrow-left" size="24" />
       <span class="uppercase">Powrót</span>
     </button>
     <NuxtLink to="/" class="mr-8 static">
-      <NuxtImg src="/images/logo.png" alt="logo" width="120" />
+      <NuxtImg
+        src="/images/logo.png"
+        alt="logo"
+        width="180"
+        class="w-30 md:w-45"
+      />
     </NuxtLink>
   </nav>
 </template>

@@ -43,8 +43,8 @@
             <div class="relative w-full grow max-lg:mx-auto max-lg:max-w-sm">
               <Lottie
                 animationLink="/lottie/webpage.json"
-                :height="400"
-                :width="400"
+                :height="300"
+                :width="300"
               />
             </div>
           </div>

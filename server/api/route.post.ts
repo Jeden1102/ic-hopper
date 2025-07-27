@@ -1,4 +1,6 @@
 export default defineEventHandler(async (event) => {
+  const config = useRuntimeConfig(event);
+
   try {
     const requestBody = await readBody(event);
     const requiredFields = [
@@ -26,7 +28,7 @@ export default defineEventHandler(async (event) => {
     };
 
     const res = await $fetch(
-      "https://api-gateway.intercity.pl/server/public/endpoint/Pociagi",
+      `${config.public.apiUri}/intercity-proxy/intercity`,
       {
         method: "POST",
         body: JSON.stringify(body),

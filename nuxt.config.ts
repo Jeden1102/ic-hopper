@@ -32,6 +32,12 @@ export default defineNuxtConfig({
     "@primevue/nuxt-module",
     "@pinia/nuxt",
   ],
+  runtimeConfig: {
+    apiSeats: "",
+    public: {
+      apiUri: "",
+    },
+  },
   fonts: {
     families: [{ name: "Roboto Flex", provider: "google" }],
   },

@@ -1,4 +1,5 @@
 export default defineEventHandler(async (event) => {
+  const config = useRuntimeConfig(event);
   try {
     const requestBody = await readBody(event);
     const requiredFields = ["stationFrom", "stationTo", "departureDate"];
@@ -22,13 +23,10 @@ export default defineEventHandler(async (event) => {
     };
 
     const res = await $fetch(
-      "http://217.154.211.149/intercity-proxy/intercity",
+      `${config.public.apiUri}/intercity-proxy/intercity`,
       {
         method: "POST",
         body: JSON.stringify(body),
-        headers: {
-          "Content-Type": "application/json",
-        },
       }
     );
 

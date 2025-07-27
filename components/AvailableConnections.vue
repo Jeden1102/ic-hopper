@@ -7,13 +7,13 @@
 
       <div class="flex justify-between my-8">
         <Button
-          label="Previous day"
+          label="Poprzedni dzień"
           icon="pi pi-angle-left"
           severity="secondary"
           @click="emit('previousDay')"
         />
         <Button
-          label="Next day"
+          label="Kolejny dzień"
           icon="pi pi-angle-right"
           severity="secondary"
           iconPos="right"
@@ -29,7 +29,7 @@
       />
     </div>
   </div>
-  <div v-if="loading">
+  <div v-if="isLoading">
     <Skeleton v-for="i in 5" class="mb-2" height="8rem"></Skeleton>
   </div>
 </template>
@@ -38,9 +38,9 @@
 import type { ICAvailableConnectionsResponse } from "~/server/types";
 import AvailableConnection from "./AvailableConnection.vue";
 
-const props = defineProps<{
+defineProps<{
   result: ICAvailableConnectionsResponse | null;
-  loading: boolean;
+  isLoading: boolean;
 }>();
 
 const emit = defineEmits<{

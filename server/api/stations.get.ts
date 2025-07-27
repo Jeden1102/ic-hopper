@@ -2,6 +2,8 @@ import { BilkomResponse, StationShort } from "../types";
 
 export default defineEventHandler(
   async (event): Promise<StationShort[] | { error: true; message: string }> => {
+    const { apiSeats } = useRuntimeConfig(event);
+
     const query = getQuery(event);
     const stationName = query.q;
 
@@ -14,7 +16,7 @@ export default defineEventHandler(
 
     try {
       const encodedName = encodeURIComponent(stationName);
-      const url = `https://bilkom.pl/stacje/szukaj?q=${encodedName}&source=FROMSTATION`;
+      const url = `${apiSeats}/stacje/szukaj?q=${encodedName}&source=FROMSTATION`;
 
       const res = await $fetch<BilkomResponse>(url);
 
