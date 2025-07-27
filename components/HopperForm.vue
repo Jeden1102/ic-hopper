@@ -30,7 +30,6 @@
         class="w-full [&>input]:w-full"
       />
     </div>
-
     <div class="flex gap-2">
       <Calendar
         v-model="connectionsForm.departureDate"
@@ -125,8 +124,8 @@ const searchConnections = async (searchDate: Date) => {
   error.value = null;
   result.value = null;
 
+  searchDate.setHours(12, 0, 0, 0);
   const formattedDate = searchDate.toISOString().split("T")[0];
-
   try {
     const payload = {
       stationFrom: connectionsForm.stationFrom!.id,
