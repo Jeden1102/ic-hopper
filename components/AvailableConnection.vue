@@ -39,7 +39,7 @@
           @click="() => setChoosenConnection(result)"
           v-if="variant !== 'simple'"
         >
-          <Button label="Choose connection" size="small" />
+          <Button label="Wybierz połączenie" size="small" />
         </NuxtLink>
       </div>
     </template>
@@ -48,7 +48,7 @@
 
 <script setup lang="ts">
 import { format } from "date-fns";
-
+import { pl } from "date-fns/locale";
 import type { ICConnection } from "~/server/types";
 
 import { useIndexStore } from "@/stores/index";
@@ -58,7 +58,7 @@ const { connectionsForm, setChoosenConnection } = useIndexStore();
 const props = defineProps<{ result: ICConnection; variant?: string }>();
 const train = props.result.pociagi[0];
 const formatDate = (dateStr: string): string =>
-  format(new Date(dateStr), "PPPP");
+  format(new Date(dateStr), "PPPP", { locale: pl });
 
 const formatTime = (dateStr: string): string =>
   format(new Date(dateStr), "HH:mm");
@@ -78,8 +78,4 @@ const generateConnectionLink = () => {
 
   return `/connection?${params.toString()}`;
 };
-
-// @todo -> do forma dodac szczegoly z polami -> 1/2 klasa, miejsce przy oknie/srodek/alejka, opcja typu 'podroz w dwojke' <
-// moze nie do samego forma bazowego, ale juz w szczegolach danego polaczenia
-// jesli nie, to rzucamy request pod /api/route, pobiermay trase i dzielimy....
 </script>

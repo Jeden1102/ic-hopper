@@ -1,9 +1,12 @@
 <template>
-  <Card class="mx-auto p-6 space-y-6 my-40 md:min-w-135" data-aos="fade-up">
+  <Card
+    class="mx-auto p-6 space-y-6 my-20 md:max-w-135 w-full"
+    data-aos="fade-up"
+  >
     <template #title>Sprawdz połączenie</template>
     <template #content>
       <div class="space-y-4">
-        <div class="flex gap-2">
+        <div class="flex flex-col gap-2 md:flex-row">
           <AutoComplete
             v-model="connectionsForm.stationFrom"
             :suggestions="stationSuggestions"
@@ -15,8 +18,13 @@
           <button @click="swapStations">
             <Icon
               name="material-symbols-light:swap-horizontal-circle"
-              class="text-primary"
+              class="text-primary !hidden md:!block"
               size="28"
+            />
+            <Icon
+              name="material-symbols-light:swap-vertical-circle"
+              class="text-primary md:!hidden"
+              size="32"
             />
           </button>
           <AutoComplete

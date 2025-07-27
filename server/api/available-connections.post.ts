@@ -32,14 +32,11 @@ export default defineEventHandler(async (event) => {
       }
     );
 
-    console.log(res, "HERE");
-
     return {
       success: true,
       data: JSON.parse(res as string),
     };
   } catch (err: any) {
-    console.log(err, "HERE");
     throw createError({
       statusCode: 500,
       statusMessage: "Internal Server Error",

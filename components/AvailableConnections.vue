@@ -29,7 +29,9 @@
       />
     </div>
   </div>
-  <div v-if="loading">Loading...@todo -> skeleton</div>
+  <div v-if="loading">
+    <Skeleton v-for="i in 5" class="mb-2" height="8rem"></Skeleton>
+  </div>
 </template>
 
 <script setup lang="ts">

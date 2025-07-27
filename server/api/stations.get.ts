@@ -1,4 +1,4 @@
-import { BilkomResponse, StationShort } from "./types";
+import { BilkomResponse, StationShort } from "../types";
 
 export default defineEventHandler(
   async (event): Promise<StationShort[] | { error: true; message: string }> => {
