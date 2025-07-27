@@ -42,7 +42,15 @@
                   >Sprawdź połączenie</RouterLink
                 >
               </Button>
-              <Button label="Jak to dziala?" type="button" outlined />
+              <Button
+                asChild
+                v-slot="slotProps"
+                label="Sprawdz połączenie"
+                type="button"
+                severity="secondary"
+              >
+                <a href="#features" :class="slotProps.class">Jak to dziala?</a>
+              </Button>
             </div>
           </div>
         </div>

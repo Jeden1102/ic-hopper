@@ -10,6 +10,9 @@
 }
 
 @layer {
+  html {
+    @apply scroll-smooth;
+  }
   body {
     * {
       @apply font-roboto;

@@ -14,9 +14,12 @@
               Wyszukiwań połączeń dziennie
             </dt>
             <dd
-              class="order-first text-3xl font-semibold tracking-tight sm:text-5xl"
+              class="order-first text-3xl font-semibold tracking-tight sm:text-5xl flex justify-center gap-1"
             >
-              120 000+
+              <count-up
+                :end-val="2000"
+                :options="{ separator: ' ', enableScrollSpy: true }"
+              /><span>+</span>
             </dd>
           </div>
           <div
@@ -28,9 +31,12 @@
               Tras analizowanych z przesiadkami
             </dt>
             <dd
-              class="order-first text-3xl font-semibold tracking-tight sm:text-5xl"
+              class="order-first text-3xl font-semibold tracking-tight sm:text-5xl flex justify-center gap-1"
             >
-              850 000+
+              <count-up
+                :end-val="850000"
+                :options="{ separator: ' ', enableScrollSpy: true }"
+              /><span>+</span>
             </dd>
           </div>
           <div
@@ -42,9 +48,12 @@
               Aktywnych użytkowników miesięcznie
             </dt>
             <dd
-              class="order-first text-3xl font-semibold tracking-tight sm:text-5xl"
+              class="order-first text-3xl font-semibold tracking-tight sm:text-5xl flex justify-center gap-1"
             >
-              18 500
+              <count-up
+                :end-val="18500"
+                :options="{ separator: ' ', enableScrollSpy: true }"
+              /><span>+</span>
             </dd>
           </div>
         </dl>
@@ -52,3 +61,7 @@
     </div>
   </div>
 </template>
+
+<script lang="ts" setup>
+import CountUp from "vue-countup-v3";
+</script>
