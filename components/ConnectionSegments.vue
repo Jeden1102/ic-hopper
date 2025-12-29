@@ -6,7 +6,7 @@
     :showNavigators="false"
   >
     <template #item="{ data }">
-      <Card class="shadow-md border border-gray-200">
+      <Card class="shadow-md border border-gray-200 mr-2 h-full">
         <template #title>
           <div class="flex items-center justify-between">
             <div>
@@ -78,7 +78,7 @@ const { segments } = defineProps<{
 }>();
 
 const formatTime = (dateString: string) => {
-  return format(new Date(dateString.replaceAll("CEST", "")), "HH:mm", {
+  return format(new Date(dateString.replaceAll("CET", "")), "HH:mm", {
     locale: pl,
   });
 };

@@ -20,8 +20,8 @@
       </div>
       <div class="flex flex-col gap-2">
         <p class="mb-2 text-lg font-semibold">O nas</p>
-        <NuxtLink to="/terms">Zasady bezpieczenstwa</NuxtLink>
-        <NuxtLink to="/privacy">Polityka prywatności</NuxtLink>
+        <NuxtLink to="#">Zasady bezpieczenstwa</NuxtLink>
+        <NuxtLink to="#">Polityka prywatności</NuxtLink>
       </div>
     </div>
     <div class="container mx-auto border-t border-gray-300 py-4 md:pb-8 px-4">
