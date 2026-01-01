@@ -101,8 +101,21 @@ export function useSeatHopper() {
 
   function loadBookmarks() {
     if (import.meta.client) {
-      const saved = localStorage.getItem("seat_hopper_bookmarks");
-      bookmarks.value = saved ? JSON.parse(saved) : [];
+      const rawData = localStorage.getItem("seat_hopper_bookmarks") || "[]";
+      const saved = JSON.parse(rawData);
+
+      const oneDayAgo = new Date();
+      oneDayAgo.setDate(oneDayAgo.getDate() - 1);
+
+      const filtered = saved.filter((bookmark: Bookmark) => {
+        if (!bookmark.connection?.departureDate) return false;
+
+        const departureDate = new Date(bookmark.connection.departureDate);
+
+        return departureDate >= oneDayAgo;
+      });
+
+      bookmarks.value = filtered;
     }
   }
 
@@ -146,5 +159,6 @@ export function useSeatHopper() {
     toggleBookmark,
     getIsBookmarked,
     bookmarks,
+    loadBookmarks,
   };
 }

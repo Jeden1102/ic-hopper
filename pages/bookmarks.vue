@@ -91,7 +91,7 @@
 <script setup lang="ts">
 import { format } from "date-fns";
 import { pl } from "date-fns/locale";
-const { bookmarks, toggleBookmark } = useSeatHopper();
+const { bookmarks, toggleBookmark, loadBookmarks } = useSeatHopper();
 
 const formatDate = (dateStr: string): string =>
   format(new Date(dateStr), "PPPP H:mm", { locale: pl });
@@ -104,11 +104,6 @@ const remove = (id: string) => {
 };
 
 onMounted(() => {
-  if (import.meta.client) {
-    const saved = localStorage.getItem("seat_hopper_bookmarks");
-    if (saved) {
-      bookmarks.value = JSON.parse(saved);
-    }
-  }
+  loadBookmarks();
 });
 </script>
