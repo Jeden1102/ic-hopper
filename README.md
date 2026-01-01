@@ -75,8 +75,7 @@ bun run preview
 ## Live version
 
 See me live !
-https://dominikraducki.works/FoodPenguin/#/
-
+https://ic-hopper.vercel.app/
 
 
 ## License
